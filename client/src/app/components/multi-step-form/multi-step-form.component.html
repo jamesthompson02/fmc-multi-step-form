@@ -1,0 +1,44 @@
+<div class="multi-step-form-container">
+  <app-icon-img
+    [imgSrc]="'/bg-sidebar-desktop.svg'"
+    [imgAlt]="'Decorate sidebar.'"
+    [imgCssStyling]="'icon-img'"
+  ></app-icon-img>
+  <div class="stepper-container">
+    <mat-stepper
+      class="stepper-override"
+      orientation="vertical"
+      [linear]="false"
+      (selectionChange)="onStepperSelectionChange($event)"
+      [selectedIndex]="index"
+    >
+      <mat-step completed="false">
+        <ng-template matStepLabel>
+          <span class="mat-step-label-top-line">STEP 1</span>
+          <span class="mat-step-label-bottom-line">YOUR INFO</span>
+        </ng-template>
+      </mat-step>
+      <mat-step completed="false">
+        <ng-template matStepLabel>
+          <span class="mat-step-label-top-line">STEP 2</span>
+          <span class="mat-step-label-bottom-line">SELECT PLAN</span>
+        </ng-template>
+      </mat-step>
+      <mat-step completed="false">
+        <ng-template matStepLabel>
+          <span class="mat-step-label-top-line">STEP 3</span>
+          <span class="mat-step-label-bottom-line">ADD-ONS</span>
+        </ng-template>
+      </mat-step>
+      <mat-step completed="false">
+        <ng-template matStepLabel>
+          <span class="mat-step-label-top-line">STEP 4</span>
+          <span class="mat-step-label-bottom-line">SUMMARY</span>
+        </ng-template>
+      </mat-step>
+      <ng-template matStepperIcon="edit">
+        {{ index + 1 }}
+      </ng-template>
+    </mat-stepper>
+  </div>
+</div>

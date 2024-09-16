@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { MultiStepFormComponent } from './components/multi-step-form/multi-step-form.component';
+import { IconImgComponent } from './components/icon-img/icon-img.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [MultiStepFormComponent, IconImgComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
-export class AppComponent {
-  title = 'client';
-}
+export class AppComponent {}
