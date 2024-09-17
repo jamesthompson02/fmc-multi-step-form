@@ -1,0 +1,103 @@
+<div [ngClass]="stepFormCssStyling">
+  @switch(selectedStepIndex) { @case (1) {
+  <app-header
+    [text]="'Select your plan'"
+    [size]="4"
+    [headerCssStyling]="'step-form-header'"
+  ></app-header>
+  <p class="step-form-sub-header">
+    You have the option of monthly or yearly billing.
+  </p>
+  <form [formGroup]="stepperForm">
+    <div formGroupName="plans">
+      <mat-radio-group class="card-radios-container" formControlName="plan">
+        @for(planOption of planOptions; track $index) {
+        <app-card-radio
+          [value]="planOption"
+          [yearly]="yearlyPayment"
+        ></app-card-radio>
+        }
+      </mat-radio-group>
+      <div>
+        <mat-checkbox
+          color="primary"
+          formControlName="yearly"
+          (change)="updateYearlyPayment($event)"
+          >Yearly</mat-checkbox
+        >
+      </div>
+      <div class="plans-step-button-container">
+        <app-button [text]="'Go Back'" (onClick)="previousStep()"></app-button>
+        <app-button [text]="'Next Step'" (onClick)="nextStep()"></app-button>
+      </div>
+    </div>
+  </form>
+
+  } @case (2) {
+  <app-header
+    [text]="'Pick add-ons'"
+    [size]="4"
+    [headerCssStyling]="'step-form-header'"
+  ></app-header>
+  <p class="step-form-sub-header">
+    Add-ons help enhance your gaming experience.
+  </p>
+  } @case (3) {
+  <app-header
+    [text]="'Finishing up'"
+    [size]="4"
+    [headerCssStyling]="'step-form-header'"
+  ></app-header>
+  <p class="step-form-sub-header">
+    Double-check everything looks OK before confirming.
+  </p>
+
+  } @case (4) {
+  <p>Selected index = 4</p>
+  } @default {
+  <app-header
+    [text]="'Personal info'"
+    [size]="4"
+    [headerCssStyling]="'step-form-header'"
+  ></app-header>
+  <p class="step-form-sub-header">
+    Please provide your name, email address and phone number.
+  </p>
+  <form [formGroup]="stepperForm">
+    <div class="stepper-form-info" formGroupName="info">
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="e.g. Stephen King"
+          formControlName="name"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Email Address</mat-label>
+        <input
+          matInput
+          type="email"
+          placeholder="e.g. stephenking@lorem.com"
+          formControlName="email"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Phone Number</mat-label>
+        <input
+          matInput
+          placeholder="e.g. +1 234 567 890"
+          formControlName="phone"
+          required
+        />
+      </mat-form-field>
+    </div>
+    <div class="info-step-button-container">
+      <app-button [text]="'Next Step'" (onClick)="nextStep()"></app-button>
+    </div>
+  </form>
+  } }
+</div>

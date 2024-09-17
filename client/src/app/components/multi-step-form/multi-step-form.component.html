@@ -10,7 +10,7 @@
       orientation="vertical"
       [linear]="false"
       (selectionChange)="onStepperSelectionChange($event)"
-      [selectedIndex]="index"
+      [selectedIndex]="index$ | async"
     >
       <mat-step completed="false">
         <ng-template matStepLabel>
@@ -37,8 +37,11 @@
         </ng-template>
       </mat-step>
       <ng-template matStepperIcon="edit">
-        {{ index + 1 }}
+        {{ (index$ | async)! + 1 }}
       </ng-template>
     </mat-stepper>
+  </div>
+  <div class="step-form-container">
+    <app-step-form [stepperForm]="stepperForm"></app-step-form>
   </div>
 </div>

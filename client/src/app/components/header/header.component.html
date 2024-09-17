@@ -1,0 +1,15 @@
+@switch(size) { @case (1) {
+<h1 [ngClass]="headerCssStyling">{{ text }}</h1>
+} @case (2) {
+<h2 [ngClass]="headerCssStyling">{{ text }}</h2>
+} @case (3) {
+<h3 [ngClass]="headerCssStyling">{{ text }}</h3>
+} @case (4) {
+<h4 [ngClass]="headerCssStyling">{{ text }}</h4>
+} @case (5) {
+<h5 [ngClass]="headerCssStyling">{{ text }}</h5>
+} @case (6) {
+<h6 [ngClass]="headerCssStyling">{{ text }}</h6>
+} @default {
+<h2 [ngClass]="headerCssStyling">{{ text }}</h2>
+} }
