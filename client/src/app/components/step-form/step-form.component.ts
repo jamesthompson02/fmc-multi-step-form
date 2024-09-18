@@ -1,18 +1,14 @@
 import {
+  AfterViewChecked,
+  ChangeDetectorRef,
   Component,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
-  SimpleChanges,
 } from '@angular/core';
 import { SelectedIndexService } from '../../services/selectedIndex/selected-index.service';
-import {
-  FormGroup,
-  ReactiveFormsModule,
-  ValueChangeEvent,
-} from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,6 +21,10 @@ import {
   MatCheckboxModule,
 } from '@angular/material/checkbox';
 import { PlanOption } from '../../models/plan-option.model';
+import { CustomToggleComponent } from '../custom-toggle/custom-toggle.component';
+import { subscriptionAddOns, subscriptionPlans } from '../../globals/globals';
+import { AddOn } from '../../models/add-on.model';
+import { AddOnComponent } from '../add-on/add-on.component';
 
 @Component({
   selector: 'app-step-form',
@@ -39,11 +39,13 @@ import { PlanOption } from '../../models/plan-option.model';
     ButtonComponent,
     CardRadioComponent,
     MatCheckboxModule,
+    CustomToggleComponent,
+    AddOnComponent,
   ],
   templateUrl: './step-form.component.html',
   styleUrl: './step-form.component.scss',
 })
-export class StepFormComponent implements OnInit, OnDestroy {
+export class StepFormComponent implements OnInit, AfterViewChecked, OnDestroy {
   @Input() stepperForm!: FormGroup;
   @Input() stepFormCssStyling: string = '';
 
@@ -52,28 +54,13 @@ export class StepFormComponent implements OnInit, OnDestroy {
 
   yearlyPayment!: boolean;
 
-  planOptions: PlanOption[] = [
-    {
-      value: 'Arcade',
-      cardImg: 'icon-arcade.svg',
-      cardImgAlt: 'Icon of old joystick controller.',
-      price: { monthly: '$9/month', yearly: '$90/year' },
-    },
-    {
-      value: 'Advanced',
-      cardImg: 'icon-advanced.svg',
-      cardImgAlt: 'Icon of  old gamepad controller.',
-      price: { monthly: '$12/month', yearly: '$120/year' },
-    },
-    {
-      value: 'Pro',
-      cardImg: 'icon-pro.svg',
-      cardImgAlt: 'Icon of modern game controller.',
-      price: { monthly: '$15/month', yearly: '$150/year' },
-    },
-  ];
+  planOptions: PlanOption[] = subscriptionPlans;
+  addOns: AddOn[] = subscriptionAddOns;
 
-  constructor(private selectedIndexService: SelectedIndexService) {
+  constructor(
+    private selectedIndexService: SelectedIndexService,
+    private cd: ChangeDetectorRef
+  ) {
     this.sub = this.selectedIndexService.selectedIndex$.subscribe(
       (selectedIndex) => (this.selectedStepIndex = selectedIndex)
     );
@@ -81,6 +68,10 @@ export class StepFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.yearlyPayment = this.stepperForm.get('plans.yearly')?.value;
+  }
+
+  ngAfterViewChecked(): void {
+    this.cd.detectChanges();
   }
 
   ngOnDestroy(): void {
@@ -95,6 +86,7 @@ export class StepFormComponent implements OnInit, OnDestroy {
   nextStep() {
     // const isValid = this.stepperForm.get('info')?.valid;
     // if (!isValid) return;
+    console.log(this.stepperForm.value);
     const newIndex = this.selectedStepIndex + 1;
     this.selectedIndexService.updateSelectedIndex(newIndex);
   }

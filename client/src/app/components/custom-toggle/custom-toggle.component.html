@@ -1,1 +1,13 @@
-<p>custom-toggle works!</p>
+<div class="toggle-container">
+  @if(!yearly) {
+  <strong><span> Monthly </span></strong>
+  } @else {
+  <span> Monthly </span>
+  }
+  <div class="toggle-switch" [ngClass]="yearly ? 'padding-left' : ''"></div>
+  @if(!yearly) {
+  <span>Yearly</span>
+  } @else {
+  <strong><span>Yearly</span></strong>
+  }
+</div>

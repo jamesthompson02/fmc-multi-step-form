@@ -18,13 +18,16 @@
         ></app-card-radio>
         }
       </mat-radio-group>
-      <div>
+      <div class="monthly-yearly-toggle-container">
         <mat-checkbox
           color="primary"
           formControlName="yearly"
           (change)="updateYearlyPayment($event)"
-          >Yearly</mat-checkbox
         >
+          <div class="toggle-container">
+            <app-custom-toggle [yearly]="yearlyPayment"></app-custom-toggle>
+          </div>
+        </mat-checkbox>
       </div>
       <div class="plans-step-button-container">
         <app-button [text]="'Go Back'" (onClick)="previousStep()"></app-button>
@@ -42,6 +45,27 @@
   <p class="step-form-sub-header">
     Add-ons help enhance your gaming experience.
   </p>
+  <form [formGroup]="stepperForm">
+    <div formGroupName="addOns">
+      @for(addOn of addOns; track $index) {
+      <app-add-on
+        [value]="addOn"
+        [yearly]="yearlyPayment"
+        [class.add-on-test]="addOnCheckbox.checked"
+      >
+        <mat-checkbox
+          #addOnCheckbox
+          color="primary"
+          [formControlName]="addOn.formControlName"
+        ></mat-checkbox>
+      </app-add-on>
+      }
+    </div>
+    <div class="add-ons-step-button-container">
+      <app-button [text]="'Go Back'" (onClick)="previousStep()"></app-button>
+      <app-button [text]="'Next Step'" (onClick)="nextStep()"></app-button>
+    </div>
+  </form>
   } @case (3) {
   <app-header
     [text]="'Finishing up'"

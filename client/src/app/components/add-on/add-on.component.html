@@ -1,0 +1,15 @@
+<div class="add-on-container">
+  <ng-content />
+  <div class="add-on-headings-container">
+    <strong class="strong-height"
+      ><span class="add-on-heading">{{ value.heading }}</span></strong
+    >
+    <span class="add-on-subheading">{{ value.subHeading }}</span>
+  </div>
+  @if(!yearly) {
+  <span class="add-on-price">{{ value.price.monthly }}</span>
+  } @else {
+  <span class="add-on-price">{{ value.price.yearly }}</span>
+
+  }
+</div>

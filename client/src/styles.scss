@@ -115,6 +115,60 @@ mat-label {
   display: none !important;
 }
 
+.monthly-yearly-toggle-container {
+  .mdc-checkbox {
+    display: none !important;
+  }
+}
+
+.mat-mdc-checkbox-ripple {
+  display: none !important;
+}
+
+.mdc-checkbox__ripple {
+  display: none;
+}
+
+.toggle-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 486px;
+  height: 45px;
+  padding: 1rem 0;
+  border-radius: 5px;
+  background-color: hsl(226, 76%, 97%);
+  margin: 1rem 0 1rem 0;
+}
+
+.toggle-switch {
+  z-index: 5;
+  width: 40px;
+  height: 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  position: relative;
+  transition: 0.2s;
+  background-color: hsl(213, 96%, 18%);
+  margin: 0 1.5rem;
+}
+
+.toggle-switch::before {
+  position: absolute;
+  content: "";
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  margin: 1.25px;
+  transition: 0.2s;
+  z-index: 6;
+  background-color: white;
+}
+
+.padding-left {
+  padding-left: 20px;
+}
+
 .card-radios-container {
   width: 100%;
   display: flex;
@@ -167,6 +221,12 @@ mat-label {
 .plans-step-button-container {
   display: flex;
   justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.add-ons-step-button-container {
+  @extend .plans-step-button-container;
+  margin-top: 3.45rem;
 }
 
 .plan-text-container {
@@ -184,6 +244,53 @@ mat-label {
     @extend .price-paragraph;
     color: hsl(213, 96%, 18%);
   }
+}
+
+.add-on-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgb(193, 193, 193);
+  border-radius: 10px;
+  margin: 1rem 0;
+  padding: 0;
+  height: 60px;
+}
+.add-on-test {
+  .add-on-container {
+    background-color: hsl(240, 100%, 98%);
+    border: 1px solid hsl(243, 100%, 62%);
+  }
+}
+.add-on-headings-container {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 205px;
+  height: 40px;
+  margin-left: 1rem;
+  margin-right: 8rem;
+  transform: translateY(-5px);
+}
+
+.add-on-heading {
+  color: hsl(213, 96%, 18%);
+  font-size: 14px;
+  height: 14px;
+}
+
+.add-on-subheading {
+  color: hsl(231, 11%, 63%);
+  font-size: 13px;
+  height: 14px;
+}
+
+.add-on-price {
+  color: hsl(243, 100%, 62%);
+  font-size: 12px;
+}
+
+.strong-height {
+  height: 16px;
 }
 
 .icon-img {
