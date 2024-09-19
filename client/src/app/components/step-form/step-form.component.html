@@ -10,7 +10,11 @@
   </p>
   <form [formGroup]="stepperForm">
     <div formGroupName="plans">
-      <mat-radio-group class="card-radios-container" formControlName="plan">
+      <mat-radio-group
+        class="card-radios-container"
+        formControlName="plan"
+        (change)="updatePlan($event)"
+      >
         @for(planOption of planOptions; track $index) {
         <app-card-radio
           [value]="planOption"
@@ -57,6 +61,7 @@
           #addOnCheckbox
           color="primary"
           [formControlName]="addOn.formControlName"
+          (change)="updateAddOns($event, addOn.formControlName)"
         ></mat-checkbox>
       </app-add-on>
       }
@@ -75,7 +80,19 @@
   <p class="step-form-sub-header">
     Double-check everything looks OK before confirming.
   </p>
-
+  <div class="summary-and-buttons-container">
+    <app-summary
+      [plan]="plan"
+      [planOptions]="planOptions"
+      [addOns]="addOns"
+      [yearly]="yearlyPayment"
+    >
+    </app-summary>
+    <div class="summary-step-button-container">
+      <app-button [text]="'Go Back'" (onClick)="previousStep()"></app-button>
+      <app-button [text]="'Confirm'" (onClick)="nextStep()"></app-button>
+    </div>
+  </div>
   } @case (4) {
   <p>Selected index = 4</p>
   } @default {

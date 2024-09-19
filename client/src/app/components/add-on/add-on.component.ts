@@ -17,6 +17,7 @@ export class AddOnComponent {
     heading: '',
     subHeading: '',
     price: { monthly: '', yearly: '' },
+    added: false,
   };
   @Input() yearly: boolean = false;
 }

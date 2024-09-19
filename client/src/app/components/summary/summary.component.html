@@ -1,0 +1,60 @@
+<div class="summary-container">
+  <div class="summary-plan">
+    @if(!yearly) {
+    <div class="summary-selected-plan-container">
+      <div class="summary-selected-plan">
+        <span class="summary-selected-plan-heading">
+          {{ selectedPlanOption!.value }} (Monthly)
+        </span>
+        <span class="summary-selected-plan-change" (click)="changePlan()"
+          >Change</span
+        >
+      </div>
+      <strong>
+        <span class="summary-selected-plan-price">
+          {{ selectedPlanOption!.price!.monthly }}
+        </span>
+      </strong>
+    </div>
+    } @else {
+    <div class="summary-selected-plan-container">
+      <div class="summary-selected-plan">
+        <span class="summary-selected-plan-heading">
+          {{ selectedPlanOption!.value }} (Yearly)
+        </span>
+        <span class="summary-selected-plan-change" (click)="changePlan()"
+          >Change</span
+        >
+      </div>
+      <strong>
+        <span>
+          {{ selectedPlanOption!.price!.yearly }}
+        </span>
+      </strong>
+    </div>
+    }
+  </div>
+  <div class="summary-add-ons">
+    @for(addOn of addOns; track $index) { @if(addOn.added && !yearly) {
+    <div class="summary-add-on">
+      <span class="summary-add-on-heading">{{ addOn.heading }}</span>
+      <span class="summary-add-on-price">{{ addOn.price.monthly }}</span>
+    </div>
+    } @if(addOn.added && yearly) {
+    <div class="summary-add-on">
+      <span class="summary-add-on-heading"> {{ addOn.heading }}</span>
+      <span class="summary-add-on-price">{{ addOn.price.yearly }}</span>
+    </div>
+    } }
+  </div>
+</div>
+<div class="summary-total">
+  @if(yearly) {
+  <span class="description"> Total (per year)</span>
+  } @else {
+  <span class="description">Total (per month)</span>
+  }
+  <strong
+    ><span class="total-price">{{ totalPrice }}</span></strong
+  >
+</div>

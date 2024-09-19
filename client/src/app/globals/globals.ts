@@ -28,17 +28,20 @@ export const subscriptionAddOns: AddOn[] = [
     heading: 'Online service',
     subHeading: 'Access to multiplayer games',
     price: { monthly: '+$1/month', yearly: '+$10/year' },
+    added: false,
   },
   {
     formControlName: 'storage',
     heading: 'Larger storage',
     subHeading: 'Extra 1TB of cloud save',
     price: { monthly: '+$2/month', yearly: '+$20/year' },
+    added: false,
   },
   {
     formControlName: 'customisableProfile',
     heading: 'Customisable profile',
     subHeading: 'Custom theme on your profile',
     price: { monthly: '+$2/month', yearly: '+$20/year' },
+    added: false,
   },
 ];

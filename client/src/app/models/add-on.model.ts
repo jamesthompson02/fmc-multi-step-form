@@ -5,4 +5,5 @@ export interface AddOn {
   heading: string;
   subHeading: string;
   price: Price;
+  added: boolean;
 }

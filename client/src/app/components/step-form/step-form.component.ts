@@ -14,7 +14,7 @@ import { HeaderComponent } from '../header/header.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ButtonComponent } from '../button/button.component';
-import { MatRadioModule } from '@angular/material/radio';
+import { MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { CardRadioComponent } from '../card-radio/card-radio.component';
 import {
   MatCheckboxChange,
@@ -25,6 +25,7 @@ import { CustomToggleComponent } from '../custom-toggle/custom-toggle.component'
 import { subscriptionAddOns, subscriptionPlans } from '../../globals/globals';
 import { AddOn } from '../../models/add-on.model';
 import { AddOnComponent } from '../add-on/add-on.component';
+import { SummaryComponent } from '../summary/summary.component';
 
 @Component({
   selector: 'app-step-form',
@@ -41,6 +42,7 @@ import { AddOnComponent } from '../add-on/add-on.component';
     MatCheckboxModule,
     CustomToggleComponent,
     AddOnComponent,
+    SummaryComponent,
   ],
   templateUrl: './step-form.component.html',
   styleUrl: './step-form.component.scss',
@@ -54,7 +56,9 @@ export class StepFormComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   yearlyPayment!: boolean;
 
-  planOptions: PlanOption[] = subscriptionPlans;
+  plan!: string;
+
+  planOptions!: PlanOption[];
   addOns: AddOn[] = subscriptionAddOns;
 
   constructor(
@@ -68,6 +72,8 @@ export class StepFormComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   ngOnInit(): void {
     this.yearlyPayment = this.stepperForm.get('plans.yearly')?.value;
+    this.plan = this.stepperForm.get('plans.plan')?.value;
+    this.planOptions = subscriptionPlans;
   }
 
   ngAfterViewChecked(): void {
@@ -93,5 +99,21 @@ export class StepFormComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   updateYearlyPayment(event: MatCheckboxChange) {
     this.yearlyPayment = event.checked;
+  }
+
+  updatePlan(event: MatRadioChange) {
+    this.plan = event.value;
+  }
+
+  updateAddOns(event: MatCheckboxChange, formControlName: string) {
+    this.addOns = this.addOns.map((addOn) => {
+      const addOnNameMatch = addOn.formControlName === formControlName;
+      if (!addOnNameMatch) {
+        return addOn;
+      } else {
+        addOn.added = event.checked;
+        return addOn;
+      }
+    });
   }
 }
