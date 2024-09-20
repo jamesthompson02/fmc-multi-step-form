@@ -1,0 +1,12 @@
+<h2 mat-dialog-title class="dialog-title">Invalid Submission</h2>
+<mat-dialog-content>
+  <div>
+    <p>The information you've attempted to submit is not valid.</p>
+    <p>There are problems with your:</p>
+  </div>
+  <ul class="invalid-form-submissions">
+    @for(datum of data.invalid; track $index) {
+    <li>{{ datum | capital }}.</li>
+    }
+  </ul>
+</mat-dialog-content>

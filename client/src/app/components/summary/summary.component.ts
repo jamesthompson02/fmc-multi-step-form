@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { PlanOption } from '../../models/plan-option.model';
 import { AddOn } from '../../models/add-on.model';
 import { SelectedIndexService } from '../../services/selectedIndex/selected-index.service';

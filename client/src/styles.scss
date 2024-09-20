@@ -387,6 +387,39 @@ mat-label {
   flex-direction: column;
   justify-content: space-between;
 }
+
+.confirmation-icon {
+  margin-bottom: 1rem;
+}
+
+.confirmation-container {
+  width: 100%;
+  height: calc(418px - 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.thank-you-header {
+  font-weight: bold !important;
+}
+
+.confirmation-message {
+  color: hsl(231, 11%, 63%);
+  font-size: 14px;
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.dialog-title {
+  text-align: center;
+}
+
+.invalid-form-submissions {
+  list-style-type: none;
+  padding-left: 0 !important;
+}
 $custom-primary-palette: (
   50: #e8eafc,
   100: #c9c4ff,

@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { SelectedIndexService } from '../../services/selectedIndex/selected-index.service';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,6 +26,10 @@ import { subscriptionAddOns, subscriptionPlans } from '../../globals/globals';
 import { AddOn } from '../../models/add-on.model';
 import { AddOnComponent } from '../add-on/add-on.component';
 import { SummaryComponent } from '../summary/summary.component';
+import { ShowSummaryService } from '../../services/showSummary/show-summary.service';
+import { ConfirmationComponent } from '../confirmation/confirmation.component';
+import { MatDialog } from '@angular/material/dialog';
+import { InvalidDialogComponent } from '../invalid-dialog/invalid-dialog.component';
 
 @Component({
   selector: 'app-step-form',
@@ -43,6 +47,8 @@ import { SummaryComponent } from '../summary/summary.component';
     CustomToggleComponent,
     AddOnComponent,
     SummaryComponent,
+    ConfirmationComponent,
+    InvalidDialogComponent,
   ],
   templateUrl: './step-form.component.html',
   styleUrl: './step-form.component.scss',
@@ -61,13 +67,18 @@ export class StepFormComponent implements OnInit, AfterViewChecked, OnDestroy {
   planOptions!: PlanOption[];
   addOns: AddOn[] = subscriptionAddOns;
 
+  showSummary$: Observable<boolean>;
+
   constructor(
     private selectedIndexService: SelectedIndexService,
-    private cd: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private showSummaryService: ShowSummaryService,
+    private dialog: MatDialog
   ) {
     this.sub = this.selectedIndexService.selectedIndex$.subscribe(
       (selectedIndex) => (this.selectedStepIndex = selectedIndex)
     );
+    this.showSummary$ = this.showSummaryService.showSummary$;
   }
 
   ngOnInit(): void {
@@ -77,7 +88,7 @@ export class StepFormComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   ngAfterViewChecked(): void {
-    this.cd.detectChanges();
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {
@@ -92,7 +103,6 @@ export class StepFormComponent implements OnInit, AfterViewChecked, OnDestroy {
   nextStep() {
     // const isValid = this.stepperForm.get('info')?.valid;
     // if (!isValid) return;
-    console.log(this.stepperForm.value);
     const newIndex = this.selectedStepIndex + 1;
     this.selectedIndexService.updateSelectedIndex(newIndex);
   }
@@ -114,6 +124,51 @@ export class StepFormComponent implements OnInit, AfterViewChecked, OnDestroy {
         addOn.added = event.checked;
         return addOn;
       }
+    });
+  }
+
+  submitForm() {
+    const info = this.stepperForm.get('info') as FormGroup;
+    const invalidControls = this.findInvalidControls(info);
+    if (invalidControls.length) {
+      this.openDialog(invalidControls);
+      return;
+    }
+    this.stepperForm.reset({
+      info: {
+        name: '',
+        email: '',
+        phone: '',
+      },
+      plans: {
+        plan: 'Arcade',
+        yearly: false,
+      },
+      addOns: {
+        online: false,
+        storage: false,
+        customisableProfile: false,
+      },
+    });
+    this.showSummaryService.updateShowSummaryStatus(false);
+  }
+
+  findInvalidControls(fg: FormGroup) {
+    const invalidControls = [];
+    const controls = fg.controls;
+    for (const name in controls) {
+      if (controls[name].invalid) {
+        invalidControls.push(name);
+      }
+    }
+    return invalidControls;
+  }
+
+  openDialog(controls: string[]) {
+    this.dialog.open(InvalidDialogComponent, {
+      data: {
+        invalid: controls,
+      },
     });
   }
 }

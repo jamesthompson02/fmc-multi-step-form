@@ -71,7 +71,7 @@
       <app-button [text]="'Next Step'" (onClick)="nextStep()"></app-button>
     </div>
   </form>
-  } @case (3) {
+  } @case (3) { @if(showSummary$ | async) {
   <app-header
     [text]="'Finishing up'"
     [size]="4"
@@ -90,12 +90,13 @@
     </app-summary>
     <div class="summary-step-button-container">
       <app-button [text]="'Go Back'" (onClick)="previousStep()"></app-button>
-      <app-button [text]="'Confirm'" (onClick)="nextStep()"></app-button>
+      <app-button [text]="'Confirm'" (onClick)="submitForm()"></app-button>
     </div>
   </div>
-  } @case (4) {
-  <p>Selected index = 4</p>
-  } @default {
+
+  } @else {
+  <app-confirmation></app-confirmation>
+  } } @default {
   <app-header
     [text]="'Personal info'"
     [size]="4"
