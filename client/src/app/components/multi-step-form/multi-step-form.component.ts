@@ -41,9 +41,13 @@ export class MultiStepFormComponent {
         [
           Validators.required,
           Validators.pattern('^[a-zA-Z]{2,40}(?: +[a-zA-Z]{2,40})+$'),
+          Validators.maxLength(60),
         ],
       ],
-      email: ['', [Validators.email, Validators.required]],
+      email: [
+        '',
+        [Validators.email, Validators.required, Validators.maxLength(60)],
+      ],
       phone: ['', [Validators.required, Validators.pattern('[0-9 ]{11}')]],
     }),
     plans: this.formBuilder.group({

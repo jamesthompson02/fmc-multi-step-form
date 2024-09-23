@@ -30,6 +30,7 @@ import { ShowSummaryService } from '../../services/showSummary/show-summary.serv
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { MatDialog } from '@angular/material/dialog';
 import { InvalidDialogComponent } from '../invalid-dialog/invalid-dialog.component';
+import { PostFormDataService } from '../../services/postFormData/post-form-data.service';
 
 @Component({
   selector: 'app-step-form',
@@ -73,7 +74,8 @@ export class StepFormComponent implements OnInit, AfterViewChecked, OnDestroy {
     private selectedIndexService: SelectedIndexService,
     private cdr: ChangeDetectorRef,
     private showSummaryService: ShowSummaryService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private postFormData: PostFormDataService
   ) {
     this.sub = this.selectedIndexService.selectedIndex$.subscribe(
       (selectedIndex) => (this.selectedStepIndex = selectedIndex)
@@ -134,6 +136,9 @@ export class StepFormComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.openDialog(invalidControls);
       return;
     }
+    const formData = this.stepperForm.getRawValue();
+    this.postFormData.signUpCustomer(formData);
+    this.showSummaryService.updateShowSummaryStatus(false);
     this.stepperForm.reset({
       info: {
         name: '',
@@ -150,7 +155,6 @@ export class StepFormComponent implements OnInit, AfterViewChecked, OnDestroy {
         customisableProfile: false,
       },
     });
-    this.showSummaryService.updateShowSummaryStatus(false);
   }
 
   findInvalidControls(fg: FormGroup) {
