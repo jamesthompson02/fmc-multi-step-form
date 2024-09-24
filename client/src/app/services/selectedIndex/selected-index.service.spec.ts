@@ -1,16 +1,28 @@
-import { TestBed } from '@angular/core/testing';
-
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { SelectedIndexService } from './selected-index.service';
 
 describe('SelectedIndexService', () => {
-  let service: SelectedIndexService;
+  let spectator: SpectatorService<SelectedIndexService>;
+
+  let createService = createServiceFactory({
+    service: SelectedIndexService,
+  });
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(SelectedIndexService);
+    spectator = createService();
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(spectator).toBeTruthy();
+  });
+
+  it('should update the state of the selectedIndex$ property', () => {
+    spectator.service.updateSelectedIndex(2);
+
+    let selectedIndex: number | undefined;
+
+    spectator.service.selectedIndex$.subscribe((val) => (selectedIndex = val));
+
+    expect(selectedIndex).toEqual(2);
   });
 });

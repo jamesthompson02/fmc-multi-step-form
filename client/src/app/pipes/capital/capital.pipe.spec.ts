@@ -1,8 +1,13 @@
 import { CapitalPipe } from './capital.pipe';
+import { SpectatorPipe, createPipeFactory } from '@ngneat/spectator';
 
 describe('CapitalPipe', () => {
-  it('create an instance', () => {
-    const pipe = new CapitalPipe();
-    expect(pipe).toBeTruthy();
+  let spectator: SpectatorPipe<CapitalPipe>;
+  const createPipe = createPipeFactory(CapitalPipe);
+
+  it('should capitalise the first letter in  a given word', () => {
+    spectator = createPipe(`{{ 'name' | capital }}`);
+    console.log(spectator.element);
+    expect(spectator.element.textContent).toBe('Name');
   });
 });

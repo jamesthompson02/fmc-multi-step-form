@@ -8,8 +8,7 @@ export class PostFormDataService {
   constructor(private http: HttpClient) {}
 
   signUpCustomer(formData: any) {
-    return this.http
-      .post('http://localhost:5000/api/signup', formData)
-      .subscribe((response) => console.log(response));
+    return this.http.post('http://localhost:5000/api/signup', formData);
+    // .subscribe((response) => console.log(response));
   }
 }
