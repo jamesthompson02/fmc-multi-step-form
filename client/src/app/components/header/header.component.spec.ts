@@ -1,23 +1,36 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {
+  byRole,
+  createComponentFactory,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
-  let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
+  let spectator: Spectator<HeaderComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [HeaderComponent]
-    })
-    .compileComponents();
+  const createComponent = createComponentFactory({
+    component: HeaderComponent,
+  });
 
-    fixture = TestBed.createComponent(HeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(() => {
+    spectator = createComponent({
+      props: {
+        text: 'Test Header',
+        size: 4,
+        headerCssStyling: 'header',
+      },
+    });
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator).toBeTruthy();
+  });
+
+  it('should render all inputs appropriately in the view template', () => {
+    const header = spectator.query(byRole('heading', { level: 4 }));
+
+    expect(header).toBeTruthy();
+    expect(header?.textContent).toBe('Test Header');
+    expect(header?.classList.contains('header')).toBe(true);
   });
 });

@@ -1,23 +1,36 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {
+  byRole,
+  createComponentFactory,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { IconImgComponent } from './icon-img.component';
 
 describe('IconImgComponent', () => {
-  let component: IconImgComponent;
-  let fixture: ComponentFixture<IconImgComponent>;
+  let spectator: Spectator<IconImgComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [IconImgComponent]
-    })
-    .compileComponents();
+  const createComponent = createComponentFactory({
+    component: IconImgComponent,
+  });
 
-    fixture = TestBed.createComponent(IconImgComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(() => {
+    spectator = createComponent({
+      props: {
+        imgSrc: 'icon-advanced.svg',
+        imgAlt: 'Icon of a game controller',
+        imgCssStyling: 'flex',
+      },
+    });
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator).toBeTruthy();
+  });
+
+  it('should correctly render inputs in the UI template', () => {
+    const iconImg = spectator.query(byRole('img'));
+
+    expect(iconImg).toHaveAttribute('src', 'icon-advanced.svg');
+    expect(iconImg).toHaveAttribute('alt', 'Icon of a game controller');
+    expect(iconImg?.classList.contains('flex')).toBe(true);
   });
 });

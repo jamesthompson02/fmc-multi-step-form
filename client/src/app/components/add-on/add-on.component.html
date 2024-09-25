@@ -2,14 +2,22 @@
   <ng-content />
   <div class="add-on-headings-container">
     <strong class="strong-height"
-      ><span class="add-on-heading">{{ value.heading }}</span></strong
+      ><span data-testid="add-on-heading" class="add-on-heading">{{
+        value.heading
+      }}</span></strong
     >
-    <span class="add-on-subheading">{{ value.subHeading }}</span>
+    <span data-testid="add-on-sub-heading" class="add-on-subheading">{{
+      value.subHeading
+    }}</span>
   </div>
   @if(!yearly) {
-  <span class="add-on-price">{{ value.price.monthly }}</span>
+  <span data-testid="add-on-monthly" class="add-on-price">{{
+    value.price.monthly
+  }}</span>
   } @else {
-  <span class="add-on-price">{{ value.price.yearly }}</span>
+  <span data-testid="add-on-yearly" class="add-on-price">{{
+    value.price.yearly
+  }}</span>
 
   }
 </div>

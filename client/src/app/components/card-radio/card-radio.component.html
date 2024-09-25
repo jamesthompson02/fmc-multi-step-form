@@ -1,5 +1,9 @@
 <mat-radio-button #btn [value]="value.value">
-  <div class="card-radio" [ngClass]="btn.checked ? 'card-radio-selected' : ''">
+  <div
+    data-testid="card-radio"
+    class="card-radio"
+    [ngClass]="btn.checked ? 'card-radio-selected' : ''"
+  >
     <div>
       <app-icon-img
         [imgSrc]="value.cardImg"
@@ -7,14 +11,18 @@
         [imgCssStyling]="''"
       ></app-icon-img>
     </div>
-    <div class="plan-text-container">
+    <div data-testid="card-radio-heading" class="plan-text-container">
       <strong>{{ value.value }}</strong>
     </div>
     <div>
       @if(!yearly) {
-      <p class="price-paragraph-gray">{{ value.price.monthly }}</p>
+      <p data-testid="card-radio-monthly" class="price-paragraph-gray">
+        {{ value.price.monthly }}
+      </p>
       } @else {
-      <p class="price-paragraph-gray">{{ value.price.yearly }}</p>
+      <p data-testid="card-radio-yearly" class="price-paragraph-gray">
+        {{ value.price.yearly }}
+      </p>
       <p class="price-paragraph-blue">2 months free</p>
       }
     </div>

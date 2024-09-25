@@ -1,23 +1,52 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {
+  byTestId,
+  createComponentFactory,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { CustomToggleComponent } from './custom-toggle.component';
 
 describe('CustomToggleComponent', () => {
-  let component: CustomToggleComponent;
-  let fixture: ComponentFixture<CustomToggleComponent>;
+  let spectator: Spectator<CustomToggleComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [CustomToggleComponent]
-    })
-    .compileComponents();
+  const createComponent = createComponentFactory({
+    component: CustomToggleComponent,
+  });
 
-    fixture = TestBed.createComponent(CustomToggleComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(() => {
+    spectator = createComponent({
+      props: {
+        yearly: true,
+      },
+    });
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator).toBeTruthy();
+  });
+
+  it('should display the correct UI based on the yearly input being true', () => {
+    const monthlyStrong = spectator.query(byTestId('monthly-strong'));
+    const toggleSwitch = spectator.query(byTestId('toggle-switch'));
+    const yearlyStrong = spectator.query(byTestId('yearly-strong'));
+
+    expect(monthlyStrong).toBeFalsy();
+    expect(toggleSwitch?.classList).toContain('padding-left');
+    expect(yearlyStrong).toBeTruthy();
+  });
+
+  it('should display the correct UI based on the yearly input being false', () => {
+    spectator = createComponent({
+      props: {
+        yearly: false,
+      },
+    });
+
+    const monthlyStrong = spectator.query(byTestId('monthly-strong'));
+    const toggleSwitch = spectator.query(byTestId('toggle-switch'));
+    const yearlyStrong = spectator.query(byTestId('yearly-strong'));
+
+    expect(yearlyStrong).toBeFalsy();
+    expect(toggleSwitch?.classList.contains('padding-left')).toBe(false);
+    expect(monthlyStrong).toBeTruthy();
   });
 });

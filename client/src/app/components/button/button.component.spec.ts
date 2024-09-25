@@ -1,23 +1,44 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {
+  byTestId,
+  createComponentFactory,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { ButtonComponent } from './button.component';
+import { consumerAfterComputation } from '@angular/core/primitives/signals';
 
 describe('ButtonComponent', () => {
-  let component: ButtonComponent;
-  let fixture: ComponentFixture<ButtonComponent>;
+  let spectator: Spectator<ButtonComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ButtonComponent]
-    })
-    .compileComponents();
+  const createComponent = createComponentFactory({
+    component: ButtonComponent,
+  });
 
-    fixture = TestBed.createComponent(ButtonComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(() => {
+    spectator = createComponent({
+      props: {
+        text: 'Click me',
+        buttonCssStyling: 'test-styling',
+      },
+    });
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator).toBeTruthy();
+  });
+
+  it('should render the text input and apply css from buttonCssStyling input', () => {
+    const button = spectator.query(byTestId('generic-button')) as HTMLElement;
+
+    expect(button.textContent?.trim()).toBe('Click me');
+    expect(button.classList).toContain('test-styling');
+  });
+
+  it('should call the handleClick method when clicked', () => {
+    const handleClickFn = jest.spyOn(spectator.component, 'handleClick');
+    const button = spectator.query(byTestId('generic-button')) as HTMLElement;
+
+    spectator.click(button);
+
+    expect(handleClickFn).toHaveBeenCalled();
   });
 });

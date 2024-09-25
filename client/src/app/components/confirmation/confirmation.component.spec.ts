@@ -1,23 +1,39 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { ConfirmationComponent } from './confirmation.component';
+import { MockComponents } from 'ng-mocks';
+import { IconImgComponent } from '../icon-img/icon-img.component';
+import { HeaderComponent } from '../header/header.component';
+import { ShowSummaryService } from '../../services/showSummary/show-summary.service';
 
 describe('ConfirmationComponent', () => {
-  let component: ConfirmationComponent;
-  let fixture: ComponentFixture<ConfirmationComponent>;
+  let spectator: Spectator<ConfirmationComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ConfirmationComponent]
-    })
-    .compileComponents();
+  const createComponent = createComponentFactory({
+    component: ConfirmationComponent,
+    shallow: true,
+    declarations: [MockComponents(IconImgComponent, HeaderComponent)],
+    providers: [mockProvider(ShowSummaryService)],
+  });
 
-    fixture = TestBed.createComponent(ConfirmationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(() => {
+    spectator = createComponent();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator).toBeTruthy();
+  });
+
+  it('should call showSummary service to update showSummary state upon ngOnDestroy lifecycle hook firing', () => {
+    const updateShowSummaryFn =
+      spectator.inject(ShowSummaryService).updateShowSummaryStatus;
+
+    spectator.component.ngOnDestroy();
+    spectator.detectChanges();
+
+    expect(updateShowSummaryFn).toHaveBeenCalledWith(true);
   });
 });

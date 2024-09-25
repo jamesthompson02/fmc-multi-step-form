@@ -1,23 +1,32 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { subscriptionAddOns, subscriptionPlans } from '../../globals/globals';
+import { SelectedIndexService } from '../../services/selectedIndex/selected-index.service';
 import { SummaryComponent } from './summary.component';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 
 describe('SummaryComponent', () => {
-  let component: SummaryComponent;
-  let fixture: ComponentFixture<SummaryComponent>;
+  let spectator: Spectator<SummaryComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [SummaryComponent]
-    })
-    .compileComponents();
+  const createComponent = createComponentFactory({
+    component: SummaryComponent,
+    providers: [mockProvider(SelectedIndexService)],
+  });
 
-    fixture = TestBed.createComponent(SummaryComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(() => {
+    spectator = createComponent({
+      props: {
+        plan: 'Arcade',
+        addOns: subscriptionAddOns,
+        planOptions: subscriptionPlans,
+        yearly: true,
+      },
+    });
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator).toBeTruthy();
   });
 });
