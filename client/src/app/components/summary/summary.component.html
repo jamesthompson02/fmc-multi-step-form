@@ -3,15 +3,24 @@
     @if(!yearly) {
     <div class="summary-selected-plan-container">
       <div class="summary-selected-plan">
-        <span class="summary-selected-plan-heading">
+        <span
+          data-testid="plan-name-monthly"
+          class="summary-selected-plan-heading"
+        >
           {{ selectedPlanOption!.value }} (Monthly)
         </span>
-        <span class="summary-selected-plan-change" (click)="changePlan()"
+        <span
+          data-testid="change"
+          class="summary-selected-plan-change"
+          (click)="changePlan()"
           >Change</span
         >
       </div>
       <strong>
-        <span class="summary-selected-plan-price">
+        <span
+          data-testid="plan-price-monthly"
+          class="summary-selected-plan-price"
+        >
           {{ selectedPlanOption!.price!.monthly }}
         </span>
       </strong>
@@ -19,15 +28,21 @@
     } @else {
     <div class="summary-selected-plan-container">
       <div class="summary-selected-plan">
-        <span class="summary-selected-plan-heading">
+        <span
+          data-testid="plan-name-yearly"
+          class="summary-selected-plan-heading"
+        >
           {{ selectedPlanOption!.value }} (Yearly)
         </span>
-        <span class="summary-selected-plan-change" (click)="changePlan()"
+        <span
+          data-testid="change"
+          class="summary-selected-plan-change"
+          (click)="changePlan()"
           >Change</span
         >
       </div>
       <strong>
-        <span>
+        <span data-testid="plan-price-yearly">
           {{ selectedPlanOption!.price!.yearly }}
         </span>
       </strong>
@@ -55,6 +70,8 @@
   <span class="description">Total (per month)</span>
   }
   <strong
-    ><span class="total-price">{{ totalPrice }}</span></strong
+    ><span data-testid="total-price" class="total-price">{{
+      totalPrice
+    }}</span></strong
   >
 </div>
