@@ -90,7 +90,11 @@
     </app-summary>
     <div class="summary-step-button-container">
       <app-button [text]="'Go Back'" (onClick)="previousStep()"></app-button>
-      <app-button [text]="'Confirm'" (onClick)="submitForm()"></app-button>
+      <app-button
+        data-testid="submit-form-btn"
+        [text]="'Confirm'"
+        (onClick)="submitForm()"
+      ></app-button>
     </div>
   </div>
 
@@ -138,7 +142,11 @@
       </mat-form-field>
     </div>
     <div class="info-step-button-container">
-      <app-button [text]="'Next Step'" (onClick)="nextStep()"></app-button>
+      <app-button
+        data-testid="onto-step-2"
+        [text]="'Next Step'"
+        (onClick)="nextStep()"
+      ></app-button>
     </div>
   </form>
   } }

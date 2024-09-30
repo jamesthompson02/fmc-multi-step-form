@@ -1,29 +1,22 @@
-import { TestBed } from '@angular/core/testing';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { AppComponent } from './app.component';
+import { MockComponent } from 'ng-mocks';
+import { MultiStepFormComponent } from './components/multi-step-form/multi-step-form.component';
 
 describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AppComponent],
-    }).compileComponents();
+  let spectator: Spectator<AppComponent>;
+
+  const createComponent = createComponentFactory({
+    component: AppComponent,
+    shallow: true,
+    declarations: [MockComponent(MultiStepFormComponent)],
+  });
+
+  beforeEach(() => {
+    spectator = createComponent();
   });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
-
-  it(`should have the 'client' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('client');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, client');
+    expect(spectator).toBeTruthy();
   });
 });

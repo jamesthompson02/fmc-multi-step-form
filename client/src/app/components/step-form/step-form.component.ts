@@ -31,7 +31,7 @@ import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { MatDialog } from '@angular/material/dialog';
 import { InvalidDialogComponent } from '../invalid-dialog/invalid-dialog.component';
 import { PostFormDataService } from '../../services/postFormData/post-form-data.service';
-
+import * as _ from 'lodash';
 @Component({
   selector: 'app-step-form',
   standalone: true,
@@ -66,7 +66,7 @@ export class StepFormComponent implements OnInit, AfterViewChecked, OnDestroy {
   plan!: string;
 
   planOptions!: PlanOption[];
-  addOns: AddOn[] = subscriptionAddOns;
+  addOns: AddOn[] = [];
 
   showSummary$: Observable<boolean>;
 
@@ -86,7 +86,9 @@ export class StepFormComponent implements OnInit, AfterViewChecked, OnDestroy {
   ngOnInit(): void {
     this.yearlyPayment = this.stepperForm.get('plans.yearly')?.value;
     this.plan = this.stepperForm.get('plans.plan')?.value;
-    this.planOptions = subscriptionPlans;
+    this.assignAddOns();
+
+    this.planOptions = subscriptionPlans.slice();
   }
 
   ngAfterViewChecked(): void {
@@ -97,14 +99,23 @@ export class StepFormComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.sub.unsubscribe();
   }
 
+  assignAddOns() {
+    subscriptionAddOns.map((val) =>
+      this.addOns.push(Object.assign({}, _.cloneDeep(val)))
+    );
+  }
+
+  resetAddOns() {
+    this.addOns.length = 0;
+    this.assignAddOns();
+  }
+
   previousStep() {
     const newIndex = this.selectedStepIndex - 1;
     this.selectedIndexService.updateSelectedIndex(newIndex);
   }
 
   nextStep() {
-    // const isValid = this.stepperForm.get('info')?.valid;
-    // if (!isValid) return;
     const newIndex = this.selectedStepIndex + 1;
     this.selectedIndexService.updateSelectedIndex(newIndex);
   }
@@ -155,6 +166,9 @@ export class StepFormComponent implements OnInit, AfterViewChecked, OnDestroy {
         customisableProfile: false,
       },
     });
+    this.yearlyPayment = false;
+    this.plan = 'Arcade';
+    this.resetAddOns();
   }
 
   findInvalidControls(fg: FormGroup) {
